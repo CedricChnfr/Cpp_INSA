@@ -7,17 +7,16 @@ class Point2D{
         int x=0, y=0;
 
     public:
-        Point2D() {x=0;y=0;}    // Constructeur par défaut dans le cas où cordonnées non entrée (point1 dans main)
-        //Point2D() {}  Méthode 2
+        Point2D() {}
         Point2D(int initialX, int initialY) {x=initialX;y=initialY;}     // Constructeur lors de la déclaration du point 
-        
+
         //Destructeur appelé par le compilateur
         ~Point2D()
         {
             //cout << "Destructeur point2d avec : " << x << endl;
         }
 
-        //Surcharge du +
+        //Surcharge du + en faisant une copie, voir V4 pour modif
         Point2D operator+(const Point2D& other) const {
         return Point2D(x + other.x, y + other.y);
         }
