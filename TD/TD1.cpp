@@ -18,6 +18,14 @@ class vecteur{
             }
         }
 
+        //Destructeur appelé par le compilateur
+        ~vecteur()
+        {
+            delete [] p; // libérer la mémoire
+            //cout << "Destructeur vecteur avec : " << p << endl;
+
+        }
+
         vecteur(int dimension, float val){
             dim=dimension;
             p = new float [dim];
