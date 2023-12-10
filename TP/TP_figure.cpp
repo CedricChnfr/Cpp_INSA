@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <list>
+#include <typeinfo>
 using namespace std;
 
 
@@ -126,19 +127,21 @@ class Cercle : public Figure, public Coloriable {
 
 int main(){
     Figure * figures[3];
-    std::list<Figure*> figures2;
-    std::list<Figure> MaListeDeForme;
-    //std::list<Figure>::iterator it = MaListeDeForme.begin();
+    list<Figure*> figuresList;
 
     // Initialize the array
     figures[0] = new Carre(5);
     figures[1] = new Cercle(3, "red");
     figures[2] = new TriangleEquilateral(4);
 
-    figures2.push_back(new Carre(5));
-    figures2.push_back(new Cercle(3, "red"));
-    figures2.push_back(new TriangleEquilateral(4));
+    //PushBack pour ajouter un élément
+    figuresList.push_back(new Carre(10));
+    figuresList.push_back(new Cercle(6, "red"));
+    figuresList.push_back(new TriangleEquilateral(8));
+    figuresList.push_back(new Rectangle(8, 3));
 
+    //EXO1
+    cout << "EXO1" << endl;
     //Loop
     for(int i=0; i<3; i++){
         cout<<"Perimetre: "<<figures[i]->perimetre()<<endl;
@@ -155,30 +158,36 @@ int main(){
         delete figures[i];
     }
 
-    for (Figure* figure : figures) {
-    cout << "Perimeter: " << figure->perimetre() << endl;
-    figure->afficherCaracteristiques();
-    cout << endl;
+    //EXO2
+    cout << "EXO2" << endl;
+
+    list<Figure*>::iterator it;
+
+    // Get an iterator to the first element (où je suis dans la liste)
+    it = figuresList.begin();
+
+    // Remove the last element
+    figuresList.pop_back();
+
+    // Loop through the list
+    while (it != figuresList.end()) {
+        cout << "Perimetre: " << (*it)->perimetre() << endl;
+        (*it)->afficherCaracteristiques();
+        
+        // Check if the figure is a Cercle
+        if (typeid(**it) == typeid(Cercle)) {
+            Cercle* c = dynamic_cast<Cercle*>(*it);
+            cout << "Color: " << c->getCouleur() << endl;
+        }
+        cout << endl;
+        it++;
     }
 
-    Carre Carre1(5);
-    MaListeDeForme.push_back( Carre1); // Ajout de figures à la liste
-    //MaListeDeForme.push_back( Cercle(3, "red"));
-    //MaListeDeForme.push_back(TriangleEquilateral(4));
-
-    //MaListeDeForme.pop_back(); // Supprimer le dernier élément de la liste
-
-    // Utilisation d'un itérateur pour parcourir la liste
-    
-
-    // std::cout << "Contenu de la liste : ";
-    // while (it != MaListeDeForme.end()) {
-    //     std::cout << it->perimetre() << " ";
-    //      it->afficherCaracteristiques() ;
-    //     ++it; // Ne pas oublier d'incrémenter l'itérateur pour éviter une boucle infinie
-    // }
-
-   
+    // Remember to delete the dynamically allocated objects when you're done with them to avoid memory leaks.
+    for (it = figuresList.begin(); it != figuresList.end(); ++it) {
+        delete *it;
+    }
+    figuresList.clear();
 
     return 0;
 }
