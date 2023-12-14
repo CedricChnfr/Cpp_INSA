@@ -27,10 +27,17 @@ public:
         monServo.attach(brocheServo);
     }
 
+    void initialiser() {
+        monServo.write(0);  // Positionner le servo à 0 degré lors de l'initialisation
+    }
+
     void tourner(int angle) {
         if (GetETAT()) {
             monServo.write(angle);
+        } else {
+            monServo.write(0); // Reset the servo position when it's not activated
         }
+
     }
 };
 

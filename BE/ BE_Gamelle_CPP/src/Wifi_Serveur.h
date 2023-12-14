@@ -57,6 +57,10 @@ void handleChoix2() {
   choix = 2;  // Mettez à jour la variable choix
 }
 
+void handleNoButtonPressed() {
+  choix = 0;  // Remet la variable choix à 0
+}
+
 
   void setup() {
     pinMode(ledPin, OUTPUT);      // Initialize the LED pin as an output
@@ -88,28 +92,12 @@ void handleChoix2() {
     //server.on("/LEDOff", std::bind(&WiFiLEDServer::handleLEDOff, this));
     server.on("/Choix1", std::bind(&WiFiLEDServer::handleChoix1, this));
     server.on("/Choix2", std::bind(&WiFiLEDServer::handleChoix2, this));
+    server.onNotFound(std::bind(&WiFiLEDServer::handleNoButtonPressed, this)); // Handle when no button is pressed
     server.begin();                  // Actually start the server
     Serial.println("HTTP server started");
   }
 
   void loop() {
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
     server.handleClient();           // Handle client requests
-
-    // Check WiFi connection status
-    if(WiFi.status() != WL_CONNECTED) {
-      Serial.println("WiFi disconnected. Trying to reconnect...");
-      WiFi.begin(ssid, password);
-      while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-      }
-      Serial.println("");
-      Serial.println("WiFi reconnected");
-    } else {
-      Serial.println("WiFi connected");
-    }
-    delay(1000); // Wait a second before checking again
   }
 };
