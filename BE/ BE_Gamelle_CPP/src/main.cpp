@@ -2,64 +2,72 @@
 #include "Servomotor.h"
 #include <iostream>
 
-//WiFiLEDServer server("Redmi Note 10 Pro", "totototo", 15);
-//WiFiLEDServer server("Les Restos De La Coo", "KB6zDjij", 15);
-WiFiLEDServer server("simple", "mama1234", 15);
+// WiFiLEDServer server("Redmi Note 10 Pro", "totototo", 15);
+// WiFiLEDServer server("Les Restos De La Coo", "KB6zDjij");
+// WiFiLEDServer server("simple", "mama1234");
+WiFiLEDServer server("Zyxel_BA41", "Lord&Lady");
 // Pin pour le servo
-const int brocheServoG = 14;
-const int brocheServoD = 12;
+const int brocheServoG = 12; // D6
+const int brocheServoD = 5;  // D1
 const int brocheCapteur = 13;
-int previouschoix=0;
+int previouschoix = 0;
 
+ServoMoteur monServoMoteurG(brocheServoG);
+ServoMoteur monServoMoteurD(brocheServoD);
+CapteurTouch monCapteurDepression(brocheCapteur);
 
-
-void setup() {
+void setup()
+{
   server.setup();
   Serial.begin(9600);
-  server.choix = 0;
-}
 
-void loop() {
-  server.loop();
-  // Serial.print("IP address: ");
-  // Serial.println(WiFi.localIP());  // Print the IP address
-  //si le capteur est enfoncer ou non 
-  CapteurTouch monCapteurDepression(brocheCapteur);
-  //choix 
-  // Liste 
+  monServoMoteurG.AllumerActionneur(true);
+  monServoMoteurD.AllumerActionneur(true);
+
   std::list<Croquette> maListeDecroquette;
   Croquette croquetteG;
   Croquette croquetteD;
   maListeDecroquette.push_back(croquetteG);
   maListeDecroquette.push_back(croquetteD);
-  // Variation de l'angle du servo
-  ServoMoteur monServoMoteurG(brocheServoG);
-  ServoMoteur monServoMoteurD(brocheServoD);
-  monServoMoteurG.AllumerActionneur(true);
-  monServoMoteurD.AllumerActionneur(true);
 
-
-if (server.choix != previouschoix){
-  std::cout << "Rentre car Previous = Actualchoix " << std::endl;
-  if (server.choix == 0) {
-    printf("choix = 0");
-    //server.choix = 0;
-    monServoMoteurG.tourner(0);
-    monServoMoteurD.tourner(0);
-  } else if (server.choix == 1 /*&& monCapteurDepression.estEnfonce()*/) {
-    printf("choix = 1\n");
-    monServoMoteurG.tourner(180);
-    delay(5000);
-    //server.choix = 0;
-
-    monServoMoteurD.AllumerActionneur(false);
-  } else if (server.choix == 2 /*&& monCapteurDepression.estEnfonce()*/) {
-    printf("choix = 2\n");
-    monServoMoteurD.tourner(180);
-    delay(5000);
-    //server.choix = 0;
-  }
-  previouschoix = server.choix;
+  Serial.println("Début Programme");
 }
 
-}    
+void loop()
+{
+
+  server.loop();
+
+  Serial.print("Adresse IP : ");
+  Serial.println(WiFi.localIP());
+
+  // Serial.println("choix: " + String(server.choix));
+
+  if (monCapteurDepression.estEnfonce())
+  {
+    std::cout << "Rentre car Previous = Actualchoix " << std::endl;
+    // delay(1000);
+    if (server.choix == 0)
+    {
+      Serial.println("choix 0");
+      monServoMoteurD.tourner(0);
+      monServoMoteurG.tourner(0);
+      delay(1000);
+    }
+    else if (server.choix == 1)
+    {
+      Serial.println("choix 1");
+      monServoMoteurD.tourner(180);
+      delay(1000);
+      monServoMoteurD.tourner(0);
+    }
+    else if (server.choix == 2)
+    {
+      Serial.println("choix 2");
+      monServoMoteurG.tourner(180);
+      delay(1000);
+      monServoMoteurG.tourner(0);
+    }
+    previouschoix = server.choix;
+  }
+}
