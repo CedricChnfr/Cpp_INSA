@@ -1,5 +1,6 @@
 #include "Wifi_Serveur.h"
 #include "Servomotor.h"
+#include "Alerte.h"
 #include <iostream>
 
 // WiFiLEDServer server("Redmi Note 10 Pro", "totototo", 15);
@@ -10,7 +11,9 @@ WiFiLEDServer server("Livebox-8C50", "Chanfreaulafamille5");
 // Pin pour le servo
 const int brocheServoG = 12; // D6
 const int brocheServoD = 5;  // D1
-const int brocheCapteur = 13;
+const int brocheCapteur = 13; // D7
+Buzzer monBuzzer(D5); // D5
+LED maLED(D8); //D8
 int previouschoix = 0;
 
 ServoMoteur monServoMoteurG(brocheServoG);
@@ -45,6 +48,8 @@ void loop()
 
   if (monCapteurDepression.estEnfonce())
   {
+    monBuzzer.desactiver();
+    maLED.desactiver();
     Serial.println("Capteur appuye");
 
     if (server.choix == 0)
@@ -67,9 +72,13 @@ void loop()
       delay(1000);
       server.choix = 0;
     }
+  } else if((!monCapteurDepression.estEnfonce() && server.choix == 1) || (!monCapteurDepression.estEnfonce() && server.choix == 2)){
+    server.choix = 0;
+    monBuzzer.activer();
+    maLED.activer();
   }
   else
   {
-    server.choix = 0; // Reset the choice if the sensor is not pressed
+    server.choix = 0;
   }
 }
