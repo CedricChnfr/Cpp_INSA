@@ -5,7 +5,8 @@
 // WiFiLEDServer server("Redmi Note 10 Pro", "totototo", 15);
 // WiFiLEDServer server("Les Restos De La Coo", "KB6zDjij");
 // WiFiLEDServer server("simple", "mama1234");
-WiFiLEDServer server("Zyxel_BA41", "Lord&Lady");
+// WiFiLEDServer server("Zyxel_BA41", "Lord&Lady");
+WiFiLEDServer server("Livebox-8C50", "Chanfreaulafamille5");
 // Pin pour le servo
 const int brocheServoG = 12; // D6
 const int brocheServoD = 5;  // D1
@@ -35,39 +36,40 @@ void setup()
 
 void loop()
 {
-
   server.loop();
 
-  Serial.print("Adresse IP : ");
-  Serial.println(WiFi.localIP());
+  // Serial.print("Adresse IP : ");
+  // Serial.println(WiFi.localIP());
 
   // Serial.println("choix: " + String(server.choix));
 
   if (monCapteurDepression.estEnfonce())
   {
-    std::cout << "Rentre car Previous = Actualchoix " << std::endl;
-    // delay(1000);
+    Serial.println("Capteur appuye");
+
     if (server.choix == 0)
     {
       Serial.println("choix 0");
       monServoMoteurD.tourner(0);
       monServoMoteurG.tourner(0);
-      delay(1000);
     }
     else if (server.choix == 1)
     {
       Serial.println("choix 1");
       monServoMoteurD.tourner(180);
       delay(1000);
-      monServoMoteurD.tourner(0);
+      server.choix = 0;
     }
     else if (server.choix == 2)
     {
       Serial.println("choix 2");
       monServoMoteurG.tourner(180);
       delay(1000);
-      monServoMoteurG.tourner(0);
+      server.choix = 0;
     }
-    previouschoix = server.choix;
+  }
+  else
+  {
+    server.choix = 0; // Reset the choice if the sensor is not pressed
   }
 }
