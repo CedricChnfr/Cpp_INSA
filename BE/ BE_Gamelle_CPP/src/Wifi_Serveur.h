@@ -3,8 +3,11 @@
 #include <sstream>
 #include "Arduino.h"
 #include "Affichage.h"
-class WiFiLEDServer
+
+// Classe pour le serveur web
+class WifiServer
 {
+// Création des objets privés
 private:
   const char *ssid;
   const char *password;
@@ -12,9 +15,11 @@ private:
 
 public:
   int choix = 0;
-  WiFiLEDServer(const char *ssid, const char *password)
+  // Constructeur pour initialiser les variables privées
+  WifiServer(const char *ssid, const char *password)
       : ssid(ssid), password(password), server(80) {}
 
+  // Méthode pour afficher la page web
   void handleRoot()
   {
     MonContenu contenu("Projet Gamelle Connecte par Cedric et Simon");
@@ -48,31 +53,37 @@ public:
     server.send(200, "text/html", html);
   }
 
-  ~WiFiLEDServer() { server.close(); }
+  // Destructeur pour fermer le serveur
+  ~WifiServer() { server.close(); }
 
+  // Méthode pour gérer le choix 1
   void handleChoix1()
   {
-    choix = 1; // Mettez à jour la variable choix
+    choix = 1;
   }
 
+  // Méthode pour gérer le choix 2
   void handleChoix2()
   {
-    choix = 2; // Mettez à jour la variable choix
+    choix = 2;
   }
 
+  // Méthode pour gérer le choix 0
   void handleNoButtonPressed()
   {
-    choix = 0; // Remet la variable choix à 0
+    choix = 0;
   }
 
+// Méthode pour se connecter au réseau WiFi
   void setup()
   {
-    // Connect to WiFi network
+    // Connexion au réseau WiFi
     Serial.println();
     Serial.println();
     Serial.print("Connecting to ");
     Serial.println(ssid);
 
+    // Commencez par connecter un réseau WiFi
     WiFi.begin(ssid, password);
 
     // Attendez jusqu'à 30 secondes pour la connexion
@@ -95,14 +106,15 @@ public:
     }
 
     // Configure and start the web server
-    server.on("/", std::bind(&WiFiLEDServer::handleRoot, this));
+    server.on("/", std::bind(&WifiServer::handleRoot, this));
 
-    server.on("/Choix1", std::bind(&WiFiLEDServer::handleChoix1, this));
-    server.on("/Choix2", std::bind(&WiFiLEDServer::handleChoix2, this));
+    server.on("/Choix1", std::bind(&WifiServer::handleChoix1, this));
+    server.on("/Choix2", std::bind(&WifiServer::handleChoix2, this));
     server.begin(); // Actually start the server
     Serial.println("HTTP server started");
   }
 
+  // Méthode pour gérer les requêtes du serveur
   void loop()
   {
     server.handleClient(); // Handle client requests
