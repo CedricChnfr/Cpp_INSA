@@ -11,11 +11,11 @@
 WiFiLEDServer server("Livebox-8C50", "Chanfreaulafamille5");
 // Pin pour le servo
 
-const int brocheServoG = 12; // D6
-const int brocheServoD = 5;  // D1
+const int brocheServoG = 12;  // D6
+const int brocheServoD = 5;   // D1
 const int brocheCapteur = 13; // D7
-Buzzer monBuzzer(D5); // D5
-//LED maLED(D8); //D8
+Buzzer monBuzzer(D5);         // D5
+// LED maLED(D8); //D8
 std::vector<LED> leds;
 int previouschoix = 0;
 
@@ -25,7 +25,16 @@ CapteurTouch monCapteurDepression(brocheCapteur);
 
 void setup()
 {
-  server.setup();
+  try
+  {
+    server.setup();
+  }
+  catch (const char *msg)
+  {
+    std::cerr << "Exception attrapée : " << msg << '\n';
+    Serial.println("Exception attrapée : ");
+    Serial.println(msg);
+  }
   Serial.begin(9600);
 
   monServoMoteurG.AllumerActionneur(true);
@@ -34,7 +43,8 @@ void setup()
   leds.push_back(LED(D8)); // LED rouge
   leds.push_back(LED(D3)); // LED jaune
   leds.push_back(LED(D4)); // LED verte
-  for (LED& led : leds) {
+  for (LED &led : leds)
+  {
     led.activer();
     delay(1000);
     led.desactiver();
@@ -47,23 +57,22 @@ void setup()
   maListeDecroquette.push_back(croquetteD);
 
   Serial.println("Début Programme");
+  Serial.print("Adresse IP : ");
+  Serial.println(WiFi.localIP());
 }
 
 void loop()
 {
+
   server.loop();
-
-  // Serial.print("Adresse IP : ");
-  // Serial.println(WiFi.localIP());
-
-  // Serial.println("choix: " + String(server.choix));
 
   if (monCapteurDepression.estEnfonce())
   {
     monBuzzer.desactiver();
-    for (LED& led : leds) {
-    led.desactiver();
-  }
+    for (LED &led : leds)
+    {
+      led.desactiver();
+    }
 
     Serial.println("Capteur appuye");
 
@@ -89,7 +98,9 @@ void loop()
       delay(1000);
       server.choix = 0;
     }
-  } else if((!monCapteurDepression.estEnfonce() && server.choix == 1) || (!monCapteurDepression.estEnfonce() && server.choix == 2)){
+  }
+  else if ((!monCapteurDepression.estEnfonce() && server.choix == 1) || (!monCapteurDepression.estEnfonce() && server.choix == 2))
+  {
     server.choix = 0;
     monBuzzer.activer();
     leds[0].activer();
@@ -97,5 +108,14 @@ void loop()
   else
   {
     server.choix = 0;
+  }
+
+  if (leds[0] == leds[1])
+  {
+    Serial.println("Les deux LEDs sont identiques.");
+  }
+  else
+  {
+    Serial.println("Les deux LEDs sont differentes.");
   }
 }

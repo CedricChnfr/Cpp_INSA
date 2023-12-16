@@ -20,6 +20,8 @@ public:
         pinMode(pin, OUTPUT);
     }
 
+    ~Buzzer() {digitalWrite(pin, LOW);}// Destructeur
+
     void activer() override {
         etat = true;
         digitalWrite(pin, HIGH);
@@ -40,6 +42,8 @@ public:
         pinMode(pin, OUTPUT);
     }
 
+    ~LED() {digitalWrite(pin, LOW);}// Destructeur
+
     void activer() override {
         etat = true;
         digitalWrite(pin, HIGH);
@@ -49,4 +53,9 @@ public:
         etat = false;
         digitalWrite(pin, LOW);
     }
+
+bool operator == (const LED& led) const {
+        return pin == led.pin;
+    }
+
 };

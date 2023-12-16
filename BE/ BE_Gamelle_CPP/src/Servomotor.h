@@ -9,6 +9,8 @@ private:
 public:
     Actionneur() : ON(false) {} // Initialise ON à false par défaut
 
+    ~Actionneur() {} // Destructor
+
     void AllumerActionneur(bool Allumer) {
         ON = Allumer;
     }
@@ -26,6 +28,8 @@ public:
     ServoMoteur(int brocheServo) : Actionneur() {
         monServo.attach(brocheServo);
     }
+
+    ~ServoMoteur() {}
 
     void initialiser() {
         monServo.write(0);  // Positionner le servo à 0 degré lors de l'initialisation
@@ -56,6 +60,8 @@ public:
    int  getPosition(){
      return positionDansGamelle;
    }
+
+   ~Croquette() {} // Destructor
 };
 
 class CapteurTouch {
@@ -67,8 +73,20 @@ public:
         pinMode(brocheCapteurTactile, INPUT);
     }
 
+    ~CapteurTouch() {}
+
     bool estEnfonce() {
         int etatCapteur = digitalRead(brocheCapteurTactile);
         return (etatCapteur == HIGH);
     }
+
+    bool estRelache() {
+        int etatCapteur = digitalRead(brocheCapteurTactile);
+        return (etatCapteur == LOW);
+    }
+
+    int getEtat() {
+        return digitalRead(brocheCapteurTactile);
+    }
+
 };
