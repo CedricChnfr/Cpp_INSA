@@ -5,7 +5,7 @@
 #include <vector>
 
 
-WifiServer server("Livebox-8C50", "Chanfreaulafamille5");
+WifiServer server("simple", "mama1234");
 
 // Pin pour les servos
 const int brocheServoG = 12;  // D6
@@ -71,7 +71,8 @@ void loop()
 {
 // Boucle pour les requêtes du serveur
   server.loop();
-
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP()); // Print the IP address
 //Condition pour qu'il reste de la nourriture
   if (monCapteurDepression.estEnfonce())
   {
