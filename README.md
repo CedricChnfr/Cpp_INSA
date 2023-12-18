@@ -8,7 +8,19 @@ Le projet que nous avons été amenés à créer durant la semaine de projet con
 
 ![IMG_0161](https://github.com/CedricChnfr/Cpp_INSA/assets/127315734/61f2fb2e-68f8-45f4-853b-7f3fc1a3ea7b)
 
-## 2) Utilisation
+## 2) Interaction avec le Système
+
+### Compiler le Projet et Utiliser la carte
+
+Pour compiler le projet, assurez-vous d'avoir les outils de développement nécessaires installés sur votre environnement. Utilisez les commandes de compilation appropriées selon votre plateforme. 
+
+- Sous Visual Studio Code vous pouvez appuyer sur le bouton suivant (ne pas cabler les composants lors du téléversement):
+![image](https://github.com/CedricChnfr/Cpp_INSA/assets/127315734/3ca05922-6d51-4d6a-b79f-74983703ea7c)
+- Une fois que le téléversement est réussi, débranchez l'ESP8266 de votre ordinateur et connectez-le à l'alimentation prévue sur le site d'installation.
+- Cabler les composants à la carte ( Moteur 1: D6, Moteur 2: D1, Capteur : D7, Buzzer : D5, Led rouge: D8, Led verte: D4, Led jaune: D3)
+- Ouvrir le site web avec l'adresse IP récupéré sur le port Série. S'assurer d'avoir connecté votre appareil au même réseau spécifié dans le code (WifiServer server(ssid, mot_de_passe);)
+
+## 3) Utilisation
 
 ### Connexion au Serveur
 
@@ -40,17 +52,10 @@ Si le capteur indique qu'il n'y a pas de nourriture :
 
 Cette combinaison de commandes web, capteurs et indicateurs visuels rend la Gamelle Connectée intuitive et interactive.
 
-## 3) Interaction avec le Système
+## 4) Conclusion
 
-### Compiler le Projet et Utiliser la carte
+Le projet de la Gamelle Connectée nous a permis de mettre en pratique plusieurs concepts et compétences clés en programmation embarquée et en développement web. Nous avons appris à interagir avec un microcontrôleur ESP8266, à concevoir une interface web pour le contrôler, et à intégrer des capteurs pour rendre le système plus intelligent.
 
-Pour compiler le projet, assurez-vous d'avoir les outils de développement nécessaires installés sur votre environnement. Utilisez les commandes de compilation appropriées selon votre plateforme. 
+Ce projet nous a également confrontés à des défis pratiques tels que la gestion des connexions WiFi, la manipulation des servomoteurs et la communication entre le microcontrôleur et l'interface web. En surmontant ces défis, nous avons acquis une expérience précieuse dans le développement d'applications IoT.
 
-- Sous Visual Studio Code vous pouvez appuyer sur le bouton suivant (ne pas cabler les composants lors du téléversement):
-![image](https://github.com/CedricChnfr/Cpp_INSA/assets/127315734/3ca05922-6d51-4d6a-b79f-74983703ea7c)
-
-- Cabler les composants à la carte ( Moteur 1: D6, Moteur 2: D1, Capteur : D7, Buzzer : D5, Led rouge: D8, Led verte: D4, Led jaune: D3)
-- Ouvrir le site web avec l'adresse IP récupéré sur le port Série. S'assurer d'avoir connecté votre appareil au même réseau spécifié dans le code.
-```bash
-# WifiServer server(ssid, mot_de_passe);
-
+En conclusion, la Gamelle Connectée illustre l'application concrète de compétences polyvalentes dans le domaine de l'embarqué et du web, offrant une solution interactive et innovante pour la gestion de la nourriture pour animaux.
