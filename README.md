@@ -4,6 +4,8 @@
 
 **Le projet de la Gamelle Connectée**
 
+(Le code source se trouve dans le dossier suivant: *Cpp_INSA/BE/BE_Gamelle_CPP/src*)
+
 Le projet que nous avons été amenés à créer durant la semaine de projet consiste à programmer un ESP8266 dans le but de créer une gamelle connectée. L'objectif principal est de commander deux servomoteurs à l'aide d'une interface web hébergée sur un serveur. De plus, l'ajout d'un capteur de pression permet de savoir s'il reste de la nourriture dans la gamelle. Pour une expérience utilisateur plus complète, des LEDs et un buzzer sont intégrés pour indiquer si tout s'est bien passé. Ce projet combine ainsi la programmation d'un microcontrôleur, l'utilisation de capteurs et la création d'une interface web pour un système complet et connecté.
 
 ![IMG_0161](https://github.com/CedricChnfr/Cpp_INSA/assets/127315734/61f2fb2e-68f8-45f4-853b-7f3fc1a3ea7b)
